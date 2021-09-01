@@ -5,11 +5,12 @@ from api_store_v1.models import Store, Product
 
 class StoreSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=50)
-    date_create = serializers.DateField(auto_now_add=True)
+    date_create = serializers.DateField()
+    store_product = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Store
-        fields = ['name', 'date_create']
+        fields = ('id', 'name', 'date_create', 'store_product')
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -19,4 +20,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Store
-        fields = '__all__'
+        fields = ('name', 'store', 'count')
+
+
+
