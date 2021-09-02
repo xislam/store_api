@@ -24,11 +24,13 @@ store_list = StoreViewSet.as_view({
 
 store_detail = StoreViewSet.as_view({
     'get': 'retrieve',
+    'post': 'create',
 })
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/v1/stores/', store_list, name='snippet-list'),
-    path('api/v1/stores/<store_id>/', store_detail, name='snippet-detail'),
+    path('api/v1/stores/', store_list, name='snippet_list'),
+    path('api/v1/stores/<store_id>/', store_detail, name='snippet_detail'),
+    path('api/v1/stores/<store_id>/buy/', store_detail, name='')
 ]

@@ -14,15 +14,20 @@ class Store(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=50, verbose_name="Продукт")
-    count = models.IntegerField(verbose_name="Колмчество продуктов")
-    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='store_product')
+    date_create = models.DateField(auto_now_add=True, verbose_name="Дата создание магазинв")
 
     class Meta:
         ordering = ["-id"]
 
     def __str__(self):
-        return f"count: {str(self.count)}, name: {self.name}"
+        return f"name: {self.name}"
 
+
+class ProductsInTheStore(models.Model):
+    store = models.ForeignKey(Store, related_name='store', on_delete=models.CASCADE)
+    products = models.ForeignKey(Product, related_name='products', on_delete=models.CASCADE)
+    count = models.IntegerField(verbose_name="Колмчество продуктов")
+    datetime = models.DateTimeField(auto_now_add=True)
 
 
 class AccountingForPurchases(models.Model):

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
@@ -11,6 +12,8 @@ class StoreViewSet(viewsets.ViewSet):
     """
     A simple ViewSet for listing  Store.
     """
+    queryset = Store.objects.all()
+    serializer_class = StoreSerializer
 
     def list(self, request):
         queryset = Store.objects.all()
@@ -18,9 +21,16 @@ class StoreViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, store_id=None):
-        queryset = Store.objects.all().prefetch_related('store_product')
+        queryset = Store.objects.all().prefetch_related('store_product').select_for_update()
         store = get_object_or_404(queryset, pk=store_id)
         serializer = StoreSerializer(store)
         return Response(serializer.data)
 
+    def bay(self, request, store_id=None):
+        queryset = Store.objects.all().prefetch_related('store_product').select_for_update()
+        store = get_object_or_404(queryset, pk=store_id)
+        serializer = StoreSerializer(store)
+
+    def create(self, request, store_id=None):
+        pass
 
